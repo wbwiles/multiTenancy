@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+  <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder><!-- If you want additional context information add {%mdc} -->
+      <pattern>%d{ISO8601} [%thread] %-5level %logger{100} - %msg%n
+      </pattern>
+    </encoder>
+  </appender>
+  
+  <logger name="org.apache" level="INFO" />
+  <logger name="org.springframework" level="INFO" />
+  <logger name="springfox" level="INFO" />
+  <logger name="org.hibernate" level="DEBUG" />
+  <logger name="com.zaxxer.hikari" level="INFO" />
+  <logger name="org.hibernate.SQL" level="DEBUG" />
+  <logger name="javax.management" level="INFO" />
+  <root level="DEBUG">
+    <appender-ref ref="stdout" />
+  </root>
+</configuration>
