@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds" debug="true">
+
+  <property name="LOGS_HOME" value="/usr/local/apache-tomcat-8.5.8/applogs" />
+ 
+ 
+ 
+ <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder><!-- If you want additional context information add {%mdc} -->
+      <pattern>%d{ISO8601} [%thread] %-5level %logger{100} - %msg%n</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>INFO</level>
+    </filter>
+  </appender>
+  
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${LOGS_HOME}/api.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+      <fileNamePattern>${LOGS_HOME}/api-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+      <maxFileSize>10MB</maxFileSize>
+      <maxHistory>15</maxHistory>
+      <totalSizeCap>1GB</totalSizeCap>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%d{ISO8601} [%thread] %-5level %logger{100} - %msg%n</pattern>
+    </encoder>
+  </appender>
+ 
+
+  <root level="DEBUG">
+    <appender-ref ref="FILE" />
+    <appender-ref ref="CONSOLE" />
+  </root>
+
+</configuration>

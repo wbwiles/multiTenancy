@@ -1,0 +1,56 @@
+package com.xyz.pw.api.services.filter;
+
+import static org.junit.Assert.assertEquals;
+
+import com.xyz.pw.api.aux.error.ServiceException;
+import com.xyz.pw.api.services.service.security.AuthenticateTokenServiceImpl;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.web.method.HandlerMethod;
+
+@RunWith(MockitoJUnitRunner.class)
+public class PWSecurityFilterTest {
+
+  private String[] flags;
+  @Mock
+  private HandlerMethod mockHandlerMethod;
+  @Mock
+  private HttpServletResponse mockHttpServletResponse;
+  @Mock
+  private HttpServletRequest mockHttpServletRequest;
+
+  @Spy
+  private AuthenticateTokenServiceImpl authenticateTokenService;
+
+  @InjectMocks
+  private PWSecurityFilter securityFilter;
+
+  @Before
+  public void init() {
+    MockitoAnnotations.initMocks(this);
+    Mockito.when(mockHttpServletRequest.getHeader(PWSecurityFilter.SECURITY_HEADER)).thenReturn("Bearer 123");
+  }
+
+  @Test(expected = Exception.class)
+  public void testHandle() throws Exception {
+    try {
+      securityFilter.handle(mockHttpServletRequest, mockHttpServletResponse, mockHandlerMethod, flags);
+
+    } catch (ServiceException e) {
+      // assertEquals("6500", e.getErrorType().getCode());
+      throw e;
+    }
+  }
+
+}
